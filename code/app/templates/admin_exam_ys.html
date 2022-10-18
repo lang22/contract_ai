@@ -1,0 +1,99 @@
+{% extends "admin_base.html" %}
+{% block page_content %}
+   <div class="container-content">
+    <div class="upload">
+        <h1 class="box-title"></h1>
+        <div class="text">要素表</div>
+        <table class="table table-hover table-bordered" style="width: 859px;height: 40px;margin-bottom: 0px;">
+            <tr>
+                <th>要素</th>
+                <th>内容</th>
+            </tr>
+
+            {% for key,_ in elem_id_list %}
+                {% if elem_type_dict[key] != 'case_amount' %}
+                    <tr>
+                        <td>{{ key }}</td>
+                        <td>{{ elem_content_dic[key] }}</td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td>{{ key }}</td>
+                        {% if elem_content_dic[key] %}
+                            <td>大写：{{ elem_content_dic[key][0] }}<br/>小写：{{ elem_content_dic[key][1] }}</td>
+                        {% else %}
+                            <td>大写：<br/>小写：</td>
+                        {% endif %}
+                    </tr>
+                {% endif %}
+            {% endfor %}
+        </table>
+    </div>
+
+    <div class="submit_check">
+            <button type="button" onclick="javascript:history.back();" class="back_buttom">返回</button>
+    </div>
+ </div>
+    <style>
+       .container-content{
+            background-color: #F7F7F7;
+            float: left;
+            width: 100%;
+            height: 1000px;
+        }
+        .submit_check{
+            float: left;
+            position: relative;
+            left: 200px;
+            width: 1025px;
+            top: 50px;
+            padding-top: 21px;
+            padding-right: 51px;
+            padding-left: 846px;
+            padding-bottom: 4px;
+            background-color: white;
+        }
+
+        .back_buttom {
+            width: 60px;
+            height: 32px;
+            font-size: 14px;
+            margin-bottom: 10px;
+            position: relative;
+            left: 50px;
+            float: left;
+        }
+         .upload {
+                float: left;
+                position: relative;
+                left: 200px;
+                top: 30px;
+                padding-top: 21px;
+                padding-right: 55px;
+                padding-left: 60px;
+                padding-bottom: 40px;
+                background-color: white;
+                width: 1025px;
+        }
+         .text {
+               position: relative;
+                width: 100%;
+                padding-top: 14px;
+                font-size: 18px;
+                padding-bottom: 20px;
+        }
+
+        @media all and (min-width: 1300px) {
+            .information, .information11 {
+                margin-left: 400px;
+            }
+        }
+
+        @media all and (min-width: 1600px) {
+            .information, .information11 {
+                margin-left: 550px;
+            }
+        }
+    </style>
+{% endblock %}
+

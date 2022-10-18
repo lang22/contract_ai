@@ -1,0 +1,81 @@
+{% extends "admin_base.html" %}
+{% block page_content %}
+
+    <div class="container-content">
+        <form method="POST" action="/flowtab/admin_choosetable" enctype="multipart/form-data">
+             <div class="upload">
+                 <h1 class="box-title"></h1>
+                 <div class="text">合同流程表</div>
+                 <p class="upload-text">选择合同流程表</p>
+                <label class="checkbox-inline" style="float: left; padding-right: 30px;    padding-left: 40px;">
+                    <input type="checkbox" id="cb1" name="cb" value="cd1">合同面签记录表
+                </label>
+                <label class="checkbox-inline" style="float: left;padding-right: 200px;">
+                    <input type="checkbox" id="cb2" name="cb" value="cd2">合同审查申请表
+                </label>
+             </div>
+
+         <div class="submit_check">
+            <button type="submit" class="btn btn-success submit_buttom" >确定</button>
+         </div>
+        </form>
+    </div>
+    <style>
+       .text {
+               position: relative;
+                width: 100%;
+                padding-top: 14px;
+                font-size: 18px;
+                padding-bottom: 28px;
+        }
+    .upload-text {
+            float: left;
+            width: 100px;
+            height: 10px;
+            font-size: 13px;
+            padding-top: 3px;
+        }
+       .container-content{
+            background-color: #F7F7F7;
+            float: left;
+            width: 100%;
+            height: 1000px;
+        }
+       .upload {
+                float: left;
+                position: relative;
+                left: 200px;
+                top: 30px;
+                padding-top: 21px;
+                padding-right: 270px;
+                padding-left: 65px;
+                padding-bottom: 60px;
+                background-color: white;
+                width: 998px;
+        }
+        .submit_check{
+            float: left;
+            position: relative;
+            left: 200px;
+            width: 998px;
+            top: 50px;
+            padding-top: 21px;
+            padding-right: 51px;
+            padding-left: 846px;
+            padding-bottom: 4px;
+            background-color: white;
+        }
+        .submit_buttom {
+             width: 60px;
+            height: 32px;
+            float: left;
+            font-size: 14px;
+            padding-top: 5px;
+            margin-bottom: 10px;
+            position: relative;
+            left: 50px;
+        }
+
+    </style>
+{% endblock %}
+

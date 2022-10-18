@@ -1,0 +1,170 @@
+{% extends "admin_base.html" %}
+{% block page_content %}
+
+<div class="text">意见反馈</div>
+<div class="check">
+    <p class="check-text">查看意见反馈列表</p>
+</div>
+
+<div class="information">
+    <table class="table table-hover table-bordered" style="width:858px;height:40px;margin-bottom: 0px;">
+        <tr>
+            <th>id</th>
+            <th>反馈人id</th>
+            <th>反馈内容</th>
+            <th>操作</th>
+        </tr>
+        {% for item in suggest_all %}
+        <form method="POST" action="/sugg/admin_suggdel" enctype="multipart/form-data">
+            <tr>
+                <td>{{ item.sugg_id }}</td>
+                <td>{{ item.user_id}}</td>
+                <td>{{ item.sugg_text | safe }}</td>
+                <td>
+                    <button type="submit">删除</button>
+                </td>
+                <input type="text" id="sugg_id" name="sugg_id" style="visibility: hidden" value={{ item.sugg_id }}>
+            </tr>
+        </form>
+        {% endfor %}
+    </table>
+</div>
+<div style="width: 859px;
+            position: relative;
+            left: 210px;
+            top: 60px;
+            float: left;">
+    <button onclick="window.location='/sugg/admin_sugg'" class="btn btn-success bnt1">
+        返回上一页
+    </button>
+</div>
+<style>
+    .text {
+        position: absolute;
+        left: 163px;
+        width: 1100px;
+        font-size: 11px;
+        color: #606266cf;
+        padding-top: 13px;
+        padding-bottom: 13px;
+        padding-left: 20px;
+        border: 0.6px solid #cfd1d7;
+        border-top: none;
+        border-left: none;
+        border-right: none
+    }
+
+    .information3 {
+        width: 859px;
+        position: relative;
+        left: 210px;
+        top: 100px;
+        float: left;
+    }
+
+    .information4 {
+        width: 859px;
+        position: relative;
+        left: 210px;
+        top: 300px;
+        float: left;
+    }
+
+    .check {
+        position: absolute;
+        left: 210px;
+        top: 131px;
+        width: 859px;
+        height: 50px;
+        float: left;
+        border: 0.7px solid #c5c8d0ad;
+        padding-top: 12px;
+        padding-right: 20px;
+        padding-left: 12px;
+        padding-bottom: 10px;
+        background-color: #c5c8d021;
+    }
+
+    .information {
+        border: 0.7px solid #c5c8d0ad;
+        width: 859px;
+        position: relative;
+        left: 210px;
+        top: 80px;
+        float: left;
+
+    }
+
+    .bnt1 {
+        position: absolute;
+        left: 1px;
+        top: 50px;
+        width: 200px;
+        height: 34px;
+        border: none;
+        border-radius: 2px;
+    }
+
+    .information2 {
+        border: 0.7px solid #c5c8d0ad;
+        width: 859px;
+        position: relative;
+        left: 210px;
+        top: 195px;
+        float: left;
+    }
+
+    .information3 {
+        width: 859px;
+        position: relative;
+        left: 210px;
+        top: 220px;
+        float: left;
+    }
+
+    .information4 {
+        width: 859px;
+        position: relative;
+        left: 210px;
+        top: 280px;
+        float: left;
+    }
+
+    .information-text {
+        float: left;
+        width: 858px;
+        padding-bottom: 12px;
+        padding-left: 14px;
+        padding-top: 12px;
+        font-size: 15px;
+        background-color: whitesmoke;
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+
+    .information-text2 {
+        float: left;
+        width: 858px;
+        padding-bottom: 12px;
+        padding-left: 14px;
+        padding-top: 5px;
+        font-size: 12px;
+        background-color: whitesmoke;
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+
+    .check-text {
+        float: left;
+        width: 300px;
+        height: 10px;
+        font-size: 15px;
+        padding-top: 3px;
+    }
+
+    .check-text2 {
+        float: right;
+    }
+</style>
+{% endblock %}
+

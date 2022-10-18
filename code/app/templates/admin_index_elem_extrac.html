@@ -1,0 +1,160 @@
+{% extends "admin_base.html" %}
+{% block page_content %}
+
+    <script src="../static/myjs/admin_index_js.js"></script>
+{#    <div class="text">风险审核</div>#}
+
+    <div class="container-content">
+         <form method="POST" action="/exam/elem_extracting_run" enctype="multipart/form-data">
+                <div class="upload">
+                <h1 class="box-title"></h1>
+                    <div class="text">要素识别</div>
+                    <div>
+                        <p class="upload-text1">合同分类</p>
+                        <select class="upload-text1" onchange="onContractSelectChange(this.value)" id="xz_yjfl" name="xz_yjfl" class="selectpicker" data-live-search="true" style="width: 150px; height: 24px;margin-right: 200px;">
+                        <option value="1_0" disabled selected style="color: gainsboro;">请选择</option>
+                        {% for category in categorys %}
+                            <option value="{{ category }}">{{ category }}</option>
+                        {% endfor %}
+                        </select>
+
+                        <p class="upload-text2">业务细分</p>
+                        <select class="upload-text2" onchange="selectChange(this.value)" id="xz_ejfl" name="xz_ejfl" class="selectpicker" data-live-search="true" style="width: 150px;height: 24px;margin-left: 28px">
+                        <option value="00000" disabled selected style="color: gainsboro;">请选择</option>
+                        </select>
+                    </div>
+
+                    <div style="margin-top: 65px">
+                            <p class="upload-text">上传文件</p>
+                    <input style="margin-left: 30px" type="file" id="upfile" name="file">
+                    </div>
+                    </div>
+
+                <div class="submit_check">
+                    <button onclick="sb1();return false;" class="btn btn-success submit_buttom">审核</button>
+                </div>
+
+    </form>
+    </div>
+
+
+    <script>
+        /**
+         * 显示错误提示
+         */
+        window.onload = function () {
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+                        alert('{{ message }}')
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        }
+    </script>
+    <style>
+        .container-content{
+            background-color: #F7F7F7;
+            float: left;
+            width: 100%;
+            height: 1000px;
+        }
+        .text {
+                position: relative;
+                width: 100%;
+                padding-top: 14px;
+                font-size: 18px;
+                padding-bottom: 28px;
+        }
+
+        .upload {
+                float: left;
+                position: relative;
+                left: 200px;
+                top: 30px;
+                padding-top: 21px;
+                padding-right: 270px;
+                padding-left: 65px;
+                padding-bottom: 60px;
+                background-color: white;
+        }
+
+        .submit_check{
+            float: left;
+            position: relative;
+            left: 200px;
+            width: 998px;
+            top: 50px;
+            padding-top: 21px;
+            padding-right: 51px;
+            padding-left: 846px;
+            padding-bottom: 4px;
+            background-color: white;
+        }
+
+
+        .upload-text {
+            float: left;
+            height: 10px;
+            font-size: 13px;
+            padding-top: 3px;
+        }
+
+        .upload-text1{
+            float: left;
+            width: 80px;
+            height: 10px;
+            font-size: 13px;
+            padding-top: 3px;
+        }
+
+        .upload-text2{
+            float: left;
+            height: 10px;
+            font-size: 13px;
+            padding-top: 3px;
+        }
+
+        .upload input[type="file"] {
+            width: 360px;
+            height: 28px;
+            float: left;
+            font-size: 13px;
+        }
+
+        .upload input[type="submit"] {
+            height: 31px;
+            width: 100px;
+            font-size: 13px;
+
+        }
+
+        .submit_buttom {
+            width: 60px;
+            height: 32px;
+            float: left;
+            font-size: 14px;
+            padding-top: 5px;
+            margin-bottom: 10px;
+            position: relative;
+            left: 50px;
+
+        }
+
+
+        {#form{width: 1000px;position: relative;}#}
+        {#@media all and (min-width:1300px) {#}
+        {#    form{#}
+        {#         left: 200px;#}
+        {#    }#}
+        {#}#}
+        {#@media all and (min-width:1800px) {#}
+        {#    form{#}
+        {#         left: 350px;#}
+        {#    }#}
+        {#}#}
+
+
+    </style>
+{% endblock %}
+

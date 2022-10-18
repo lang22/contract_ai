@@ -1,0 +1,82 @@
+{% extends "mage_base.html" %}
+{% block page_content %}
+<div>
+    <script src="//cdn.ckeditor.com/4.4.7/standard/ckeditor.js"></script>
+</div>
+    <div class="container-content">
+     <div class="upload">
+         <h1 class="box-title"></h1>
+         <div class="text">意见反馈</div>
+         <div><textarea name="demo" id="demo" style="border-style: none"></textarea></div>
+      </div>
+         <div class="submit_check">
+                <button onclick="submit()" type="submit" class="btn btn-success submit_buttom">提交</button>
+         </div>
+    </div>
+
+<form method="POST" action="/sugg/admin_sugg_add" enctype="multipart/form-data"></form>
+
+    <script>
+    window.onload = function() { CKEDITOR.replace( 'demo'); };
+ function submit() {
+     var text=CKEDITOR.instances.demo.document.getBody().getText().trim();
+    if (text.length >0) {
+        alert("提交成功！");
+        console.log(text);
+    }else {
+       alert("请输入！");
+    }
+ }
+ </script>
+
+<style>
+ .container-content{
+            background-color: #F7F7F7;
+            float: left;
+            width: 100%;
+            height: 1000px;
+        }
+        .submit_check{
+            float: left;
+            position: relative;
+            left: 200px;
+            width: 1025px;
+            top: 50px;
+            padding-top: 21px;
+            padding-right: 51px;
+            padding-left: 846px;
+            padding-bottom: 4px;
+            background-color: white;
+        }
+      .submit_buttom {
+            width: 60px;
+            height: 32px;
+            float: left;
+            font-size: 14px;
+            margin-bottom: 10px;
+            position: relative;
+            left: 50px;
+        }
+         .upload {
+                float: left;
+                position: relative;
+                left: 200px;
+                top: 30px;
+                padding-top: 21px;
+                padding-right: 55px;
+                padding-left: 60px;
+                padding-bottom: 40px;
+                background-color: white;
+                width: 1025px;
+        }
+         .text {
+               position: relative;
+                width: 100%;
+                padding-top: 14px;
+                font-size: 18px;
+                padding-bottom: 20px;
+        }
+
+</style>
+
+{% endblock %}

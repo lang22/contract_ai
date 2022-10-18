@@ -1,0 +1,127 @@
+{% extends "admin_base.html" %}
+
+{% block page_content %}
+    <div class="container-content">
+        <div >
+               <div class="header-navigation">
+                <div class="navigation-btn">
+                    <a href="/exam" style="color:#909399">智能审核</a>
+                    <span style="color:#909399"> / </span>
+                    <span style="color:#303133">要素识别</span>
+                </div>
+       </div>
+
+        <div class="upload">
+        <div class="text" style="font-weight:normal;color:#595959;font-size:16px;"><h1 class="box-title"></h1>要素表</div>
+
+                <span style="font-size: xx-small;color: grey;">&nbsp;&nbsp;&nbsp;&nbsp;-- 表明该协议无此要素 ;
+                    <span style="color: red;">不同颜色</span>
+                    表示要素差异
+                </span>
+
+            <table style="height:40px;margin-bottom: 0px;margin-top: 30px;width:100%;">
+                <tr>
+                    <td class="multi_cell"></td>
+                    {% for filename in filenames %}
+                        <td class="multi_cell">
+                            <div style="margin: 10px;font-weight:bold;">{{ filename }}</div>
+                        </td>
+                    {% endfor %}
+                </tr>
+                {% for element in elem_lis %}
+                    <tr>
+                        <td class="multi_cell">
+                            <div style="margin: 10px;font-weight:bold;">{{ element }}</div>
+                        </td>
+                        {% for filename in filenames %}
+                            <td class="multi_cell" style="color: {{ elem_color_dic[element][content_dict_dic[filename][element]] }};">
+                                <div style="margin: 10px;">{{ content_dict_dic[filename][element] }}</div>
+                            </td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </table>
+
+        </div>
+             <div class="submit_check" style="display: inline;">
+                <a href="/multi_exam"><button type="button" class="back_buttom">返回</button></a>
+            </div>
+        </div>
+    </div>
+
+    <style>
+
+        .container-content {
+            background-color: #F7F7F7;
+            float: left;
+            width: 100%;
+            height: 1000px;
+        }
+
+
+        .multi_cell {
+            border: 1px solid #80808030;
+            text-align: center;
+        }
+
+        .multi_submit {
+            float: left;
+            position: relative;
+            left: 20%;
+            width: 77%;
+            top: 10%;
+            padding-top: 1%;
+            padding-left: 65%;
+            padding-bottom: 1%;
+            background-color: white;
+        }
+        .multi_button {
+          width:108px;
+            height:40px;
+            background:rgba(255,255,255,1);
+            border:1px solid rgba(217,217,217,1);
+            box-shadow:0px 3px 7px 0px rgba(217,217,217,0.25);
+            border-radius:4px;
+            margin-top:44px;
+        }
+       .header-navigation {
+        float: left;
+        position: relative;
+        left: 220px;
+        top: 30px;
+        padding-left: 22px;
+        padding-right: 22px;
+        padding-bottom: 22px;
+        width: 100%;
+        background-color: white;
+        height: 30px;
+        }
+
+      .navigation-btn {
+            line-height: 32px;
+            font-size: 12px;
+        }
+     .upload {
+            float: left;
+            position: relative;
+            left: 200px;
+            top: 30px;
+            margin-left:14px;
+            padding-top: 22px;
+            padding-right: 50px;
+            padding-left: 22px;
+            padding-bottom: 60px;
+            background-color: white;
+            width: 1102px;
+            height: auto;
+        }
+     .text {
+               position: relative;
+                width: 100%;
+                padding-top: 14px;
+                font-size: 18px;
+                padding-bottom: 20px;
+        }
+    </style>
+{% endblock %}
+

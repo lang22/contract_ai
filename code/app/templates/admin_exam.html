@@ -1,0 +1,337 @@
+{% extends "admin_base.html" %}
+{% block page_content %}
+
+    <div class="container-content">
+        <div class="header-navigation">
+            <div class="navigation-btn">
+                <a href="/exam" style="color:#909399">智能审核</a>
+                <span style="color:#909399"> / </span>
+                <span style="color:#303133">文档对比结果</span>
+            </div>
+        </div>
+        <div class="upload">
+            <div class="text" style="font-weight:normal;color:#595959;font-size:16px;"><h1 class="box-title"></h1>
+                文档详细对比结果
+            </div>
+            <table class="table table-hover table-bordered" style="height:40px;margin-bottom: 0px;width:1066px;">
+                <tr>
+                    <th>
+                        <div style="text-align:center">
+                            <div style="height:17px;font-size:16px;">合同文档模板</div>
+                            <img height="4px" src="{{ url_for('static', filename='image/bot_selected.png') }}"></div>
+                    </th>
+                    <th>
+                        <div style="text-align:center">
+                            <div style="height:17px;font-size:16px;">待审合同文档</div>
+                            <img height="4px" src="{{ url_for('static', filename='image/bot_selected.png') }}"></div>
+                    </th>
+                </tr>
+            </table>
+            <div style="width:1066px;">
+                <div id="div1" class="cdiv1" onscroll="funcsrcoll1()">{{ model_html | safe }}</div>
+                <div id="div2" class="cdiv2" onscroll="funcsrcoll2()">{{ test_html | safe }} </div>
+            </div>
+            <div style="padding-top:22px">
+                <div style="float:left;margin-top:22px;font-weight:bold;height:32px;line-height:32px;">审核规则：</div>
+                <div class="colorlabel" style="background:#F8F8E6;border:1px solid #ECE8BC;color:#BAA82D">内容修改</div>
+                <div class="colorlabel" style="background:#EDF8E6;border:1px solid #CCECBC;color:#58BA2D">内容增加</div>
+                <div class="colorlabel" style="background:#FCEBEC;border:1px solid #F6CCCC;color:#E75183">内容删除</div>
+                <div class="colorlabel" style="background:#F1F1F2;border:1px solid #D9D9DC;color:#7E8187">内容完全变化</div>
+            </div>
+
+        </div>
+
+        <div class="submit_check" style="display: inline;">
+            <button onclick="SendForm();" class="btn btn-primary submit_buttom" style="left: 50px;">下一步</button>
+            <button onclick="downloadTestDocFile(2)" class="btn btn-primary submit_buttom" style="left: 25px;">下载
+            </button>
+            <button type="btn btn-success" onclick="javascript:history.back();" class="back_buttom">返回</button>
+        </div>
+
+    </div>
+
+    <form name='lookForm' method="POST" action="/exam/admin_examdocx_next" enctype="multipart/form-data"></form>
+    <form name='download_form' method="POST" action="/exam/download_exam_result_docx" enctype="multipart/form-data">
+        <input id="download_input" name="download_input" type="hidden" value=""></form>
+    <script>
+
+        /**
+         * 修改颜色样式缓存字典
+         */
+        let changeColorTmpDict = new Array()
+
+
+        /**
+         * 修改颜色样式
+         * @param aID
+         */
+        function changeColor(aID) {
+            let a = document.getElementById(aID);
+            let spanID = a.firstElementChild.id;
+            let span = document.getElementById(spanID);
+
+            // 如果以及被修改，可以取消修改
+            if (spanID in changeColorTmpDict) {
+                let confirmValue = confirm("是否不接受“" + span.innerText + "”的修改？（点击确定将添加高亮）");
+                if (confirmValue) {
+                    span.className = changeColorTmpDict[spanID];
+                    delete changeColorTmpDict[spanID];
+
+                }
+            } else {
+                let confirmValue = confirm("是否接受“" + span.innerText + "”的修改？（点击确定将去除高亮）");
+                if (confirmValue) {
+                    changeColorTmpDict[spanID] = span.className;
+                    span.className = 'doc_confirm';
+
+                }
+            }
+
+            console.log(changeColorTmpDict);
+            console.log(changeColorTmpDict.toString());
+        }
+
+        /**
+         * 将确认修改的内容提交表单，下载文件
+         */
+        {#function downloadTestDocFile() {#}
+        {#    let download_input = document.getElementById('download_input');#}
+        {##}
+        {#    let input_str = "";#}
+        {#    for (let key in changeColorTmpDict) {#}
+        {#        input_str += key.toString() + ' ';#}
+        {#    }#}
+        {#    console.log(input_str);#}
+        {##}
+        {#    download_input.value = input_str;#}
+        {#    document.download_form.submit();#}
+        {#}#}
+
+            function downloadTestDocFile(number) {
+                let download_input = document.getElementById('download_input');
+
+
+                download_input.value = number == 1 ? 'is_first' : 'is_second';
+                document.download_form.submit();
+            }
+
+            /**
+             * 提交表单
+             * @constructor
+             */
+            function SendForm() {
+                document.lookForm.submit();
+            }
+
+            /**
+             * 控制两个div的滚动条联动，便于页面对比
+             */
+            function funcsrcoll1() {
+                //div2.scrollTop = div1.scrollTop;
+            }
+
+            /**
+             * 控制两个div的滚动条联动，便于页面对比
+             */
+            function funcsrcoll2() {
+                div1.scrollTop = div2.scrollTop;
+            }
+
+            window.onload = function () {
+                document.getElementById("title2").style.color = "white";
+                document.getElementById("title2").style.opacity = "1.0";
+                {#document.getElementById("title2").style.backgroundImage="url('{{ url_for('static', filename='image/selected_border.png') }}')";#}
+                document.getElementById("title2").style.backgroundPosition = "0px 0px";
+            }
+    </script>
+    <style>
+
+        a {
+            color: black;
+            font-weight: Normal; /*CSS字体效果 普通 可以改成bold粗体 如果去除此行那么默认是不显示下划线的*/
+            text-decoration: none; /*CSS下划线效果：无下划线*/
+        }
+
+        a:hover {
+            color: black;
+        }
+
+        .doc_add {
+            background-color: #aaffaa
+        }
+
+        .doc_change {
+            background-color: yellow
+        }
+
+        .doc_delete {
+            background-color: #ffaaaa
+        }
+
+        .doc_diff {
+            background-color: lightgrey
+        }
+
+        .doc_confirm {
+            color: black;
+            font-weight: normal;
+            font-weight: bold;
+            background-color: #FFF
+        }
+
+        .difference {
+            color: red;
+        }
+
+        .no_difference {
+            color: green;
+        }
+
+        .doc_diff:hover {
+            font-weight: bold;
+            color: black;
+            background-color: lightgrey
+        }
+
+        .doc_add:hover {
+            color: black;
+            font-weight: bold;
+            background-color: #aaffaa
+        }
+
+        .doc_change:hover {
+            color: black;
+            font-weight: bold;
+            background-color: yellow
+        }
+
+        .doc_delete:hover {
+            color: black;
+            font-weight: bold;
+            background-color: #ffaaaa
+        }
+
+        .doc_diff:hover {
+            color: black;
+            font-weight: bold;
+            background-color: lightgrey
+        }
+
+        .doc_confirm:hover {
+            color: black;
+            font-weight: bold;
+        }
+
+        .cdiv1 {
+            border: 0.5px solid lightgrey;
+            width: 50%;
+            height: 650px;
+            float: left;
+            overflow: scroll;
+            font-family: '新宋体'
+        }
+
+        .cdiv2 {
+            border: 0.5px solid lightgrey;
+            width: 50%;
+            height: 650px;
+            float: left;
+            overflow: scroll;
+            font-family: '新宋体';
+        }
+
+        .container-content {
+            background-color: #F7F7F7;
+            float: left;
+            width: 100%;
+            height: 1000px;
+        }
+
+        .colorlabel {
+            width: 110px;
+            height: 32px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 14px;
+            float: left;
+            margin-top: 22px;
+            margin-left: 22px;
+            text-align: center;
+            line-height: 32px;
+        }
+
+        .header-navigation {
+            float: left;
+            position: relative;
+            left: 220px;
+            top: 30px;
+            padding-left: 22px;
+            padding-right: 22px;
+            padding-bottom: 22px;
+            width: 100%;
+            background-color: white;
+            height: 30px;
+        }
+
+        .navigation-btn {
+            line-height: 32px;
+            font-size: 12px;
+        }
+
+        .upload {
+            float: left;
+            position: relative;
+            left: 200px;
+            top: 30px;
+            margin-left: 14px;
+            padding-top: 22px;
+            padding-right: 270px;
+            padding-left: 22px;
+            padding-bottom: 60px;
+            background-color: white;
+            width: 1102px;
+            height: auto;
+        }
+
+        .text {
+            position: relative;
+            width: 100%;
+            padding-top: 14px;
+            font-size: 18px;
+            padding-bottom: 20px;
+        }
+
+        .information-text2 {
+            float: left;
+            width: 100%;
+            padding-top: 25px;
+            font-size: 12px;
+        }
+
+
+        @media all and (max-width: 1600px) {
+            .information0, .information, .information2, .information3 {
+                margin-left: 250px;
+            }
+
+            .information, .information2 {
+                margin-top: 50px;
+            }
+
+            .information0, .information3 {
+                margin-top: 80px;
+            }
+        }
+
+
+        /*FireFox*/
+        @-moz-document url-prefix() {
+
+            .fileinput {
+                margin-left: -26%;
+            }
+
+        }
+    </style>
+{% endblock %}
+

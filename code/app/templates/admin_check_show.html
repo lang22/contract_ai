@@ -1,0 +1,373 @@
+{% extends "admin_base.html" %}
+
+{% block page_content %}
+    <div class="container-content">
+        <div class="header-navigation">
+            <div class="navigation-btn">
+                    <a href="/exam" style="color:#909399">智能审核</a>
+                    <span style="color:#909399"> / </span>
+                    <span style="color:#303133">合规性审核结果</span>
+            </div>
+        </div>
+        <div class="upload" >
+        <div class="text" style="font-weight:normal;color:#595959;font-size:16px;"><h1 class="box-title"></h1>合规审核结果</div>
+            <table class="table table-hover table-bordered"  style="height:40px;margin-bottom: 0px;width:1066px;">
+                <tr>
+                    <th width="50%"><div style="text-align:center"><div style="height:17px;font-size:16px;">合规性审核文档</div><img height="4px" src="{{ url_for('static', filename='image/bot_selected.png') }}"></div></th>
+                    <th width="50%"><div style="text-align:center"><div style="height:17px;font-size:16px;">合规性相似信息展示</div><img height="4px" src="{{ url_for('static', filename='image/bot_selected.png') }}"></div></th>
+                </tr>
+            </table>
+            <div style="width:1066px;">
+            <div id="table1" class="information">
+                <div style="margin-left: 10px;">{{ body | safe }}</div>
+            </div>
+            <div id="table2" class="result" style="background:#F7F8FA">
+                <table id="table3" class="table3">
+                    {% for i, para_dic in first_sims %}
+                        <tr>
+                            <td><div class="td_index">{{ i }}</div></td>
+                            <td colspan="5"><div class="td_simple_name">{{ para_dic['simple_name'] }}</div></td>
+                        </tr>
+                        <tr>
+                            <td class="td_sim_doc" colspan="6" style="line-height:25px;">{{ para_dic['sim_document'] }}</td>
+                        </tr>
+                        <tr style="border-bottom:0.2px solid #c5c8d0ad;padding-bottom:20px">
+                            <td><div>
+                                <button style="border:0;background-color: whitesmoke" onclick="javascript:flower('{{ para_dic['sim_documents_path'] }}', '{{ para_dic['sim_document'] }}')">
+                                    <span class="glyphicon glyphicon-thumbs-up" style="color:red;"></span>
+                                </button>
+                            </div></td>
+                            <td><div>相似度：
+                                <span style="color:red;"> {{ para_dic['sims'] }} </span>
+                            </div></td>
+                            <td id="flowwer">
+                                <div>
+                                    <button style="margin-top:7px;height: 20px;width: 20px; background-repeat:no-repeat;background-color:transparent;border:none;background-image:url('{{ url_for('static', filename='image/download.png') }}')"
+                                            onclick="javascript:downloadTestDocFile('{{ para_dic['sim_documents_path'] }}', '{{ para_dic['sim_document'] }}')">
+                                    </button>
+                                </div>
+                            </td>
+                            <td colspan="3"></td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+            </div>
+
+        </div>
+
+     <div class="submit_check" style="display: inline;">
+     <a href="/check"><button type="button" class="back_buttom">返回</button></a>
+     </div>
+    </div>
+
+
+    <form name='download_form' method="POST" action="/check/admin_check_download/" enctype="multipart/form-data">
+        <input id="download_input" name="download_input" type="hidden" value="">
+    </form>
+
+    <script>
+
+        window.onload = function () {
+            document.getElementById("title3").style.color="white";
+            document.getElementById("title3").style.opacity="1.0";
+            {#document.getElementById("title3").style.backgroundImage="url('{{ url_for('static', filename='image/selected_border.png') }}')";#}
+            document.getElementById("title3").style.backgroundPosition = "0px 0px";
+        }
+
+        {#window.onresize = function () {#}
+        {#    let table1 = document.getElementById("table1");#}
+        {#    table1.style.width = (window.screen.availWidth + 450).toString() + 'px';#}
+        {#    let table2 = document.getElementById("table2");#}
+        {#    table2.style.width = (window.screen.availWidth + 450).toString() + 'px';#}
+        {# }#}
+
+        {#window.onresize = function () {#}
+        {#    let table1 = document.getElementById("table1");#}
+        {#    table1.style.height = (window.screen.availHeight - 450).toString() + 'px';#}
+        {#    let table2 = document.getElementById("table2");#}
+        {#    table2.style.height = (window.screen.availHeight - 450).toString() + 'px';#}
+        {# }#}
+            {##}
+            {#window.onload = function () {#}
+            {##}
+            {#    let table1 = document.getElementById("table1");#}
+            {#    table1.style.height = (window.screen.availHeight - 450).toString() + 'px';#}
+            {#    let table2 = document.getElementById("table2");#}
+            {#    table2.style.height = (window.screen.availHeight - 450).toString() + 'px';#}
+            {# }#}
+
+            function test(content) {
+
+                let url = "/check/admin_check_search/?content=" + content;
+
+                let request;
+                if (window.XMLHttpRequest) {
+                    request = new XMLHttpRequest();
+                } else if (window.ActiveXObject) {
+                    request = new ActiveXObject("Micros" +
+                        "" +
+                        "ft.XMLHTTP");
+                }
+
+                request.open("GET", url, true);
+
+
+                request.onreadystatechange = function () {
+                    if (request.readyState == 4) {
+                        if (request.status == 200) {
+                            let responseText = request.responseText;
+
+                            let responseTextJSON = JSON.parse(responseText);
+                            $('#table2').children().remove();
+                            console.log(responseTextJSON)
+                            let outString = '';
+
+                            outString += '<table id="table3" class="table3">';
+
+                            {#outString += '<tr><td><h1 style="background: #2c6fae;width:7px;height:20px;float: left;margin-left: 0px;margin-top: 15px"></h1></td>' +#}
+                            {#    '<td colspan="4" style="line-height:50px;font-size:20px">合规性相似信息展示</td></tr>';#}
+
+
+                            for (let index in responseTextJSON.results) {
+
+                                let file = responseTextJSON.results[index].filename;
+                                let content = responseTextJSON.results[index].content;
+                                let sims = responseTextJSON.results[index].sims;
+                                let simple_file = responseTextJSON.results[index].simple_file;
+
+                                let tmp = parseInt(index)+1;
+
+                                console.log(tmp);
+
+                                outString += '<tr>'
+                                        + '<td><div class="td_index">' + tmp +'</div></td>'
+                                        + '<td colspan="5"><div class="td_simple_name">' + simple_file + '</div></td>'
+                                        + '</tr>';
+
+                                outString += '<tr>'
+                                        + '<td class="td_sim_doc" colspan="6" style="line-height:25px;">' + content + '</td>'
+                                        + '</tr>';
+
+                                outString += '<tr style="border-bottom:0.2px solid #c5c8d0ad;padding-bottom:20px">'
+                                        + '<td><div>'
+                                        + '<button style="border:0;background-color: whitesmoke" onclick="javascript:flower(\'' + file + '\', \'' + content + '\')">'
+                                        + '<span class="glyphicon glyphicon-thumbs-up" style="color:red;"></span>'
+                                        + '</button>'
+                                        + '</div></td>'
+                                        + '<td><div>相似度：'
+                                        + '<span style="color:red;">' + sims + '</span>'
+                                        + '</div></td>'
+                                        + '<td id="flowwer">'
+                                        + '<div>'
+                                        {#+ '<button style="margin-top:7px;height: 20px;width: 20px; background-repeat:no-repeat;background-color:transparent;border:none;background-image:url(\'' + {{ url_for('static', filename='image/download.png') }} + '\')"'#}
+                                        + '<button style="margin-top:7px;height: 20px;width: 20px; background-repeat:no-repeat;background-color:transparent;border:none;background-image:url(\'' + "/static/image/download.png"  +'\')"'
+                                        + 'onclick="javascript:downloadTestDocFile(\'' + file + '\',\'' + content + '\')">'
+                                        + '</button>'
+                                        + '</div></td><td colspan="3"></td></tr>';
+
+                            }
+
+
+
+                            outString += '</table>';
+
+                            $('#table2').append(outString)
+                        }
+                    }
+                };
+
+
+                request.send(null);
+            }
+
+            function downloadTestDocFile(filename, content) {
+                console.log(filename);
+                let download_input = document.getElementById('download_input');
+                download_input.value = '{"filename":"' + filename + '", "content":"' + content + '"}';
+                document.download_form.submit();
+            }
+
+
+
+
+            function flower(_filename, _content) {
+                let url = "/check/admin_check_flower/";
+                $.ajax({
+                    type: "GET",
+                    url: "/check/admin_check_flower/?filename="
+                        + _filename + "&content=" + _content,
+                    async: true,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    dataType: 'json',
+                    success: function (x) {
+                        console.log(x);
+                    }
+                });
+            }
+
+    </script>
+    {{ style | safe }}
+    <style>
+        .td_index{
+            width:24px;
+            height:24px;
+            color:#00B0FF;
+            background:#D9FEFF;
+            border:1px solid #B6E4FF;
+            border-radius:4px;
+            text-align:center;
+        }
+        .td_simple_name{
+            font-size:16px;
+            font-weight:bold;
+            color:#333333;
+            height:36px;
+            line-height:36px;
+            margin-left:11px;
+        }
+        .icon {
+            width: 1em;
+            height: 1em;
+            vertical-align: -0.15em;
+            fill: currentColor;
+            overflow: hidden;
+        }
+         .header-navigation {
+        float: left;
+        position: relative;
+        left: 220px;
+        top: 30px;
+        padding-left: 22px;
+        padding-right: 22px;
+        padding-bottom: 22px;
+        width: 100%;
+        background-color: white;
+        height: 30px;
+        }
+
+        .navigation-text {
+            font-size:18px;
+            font-family:MicrosoftYaHei;
+            font-weight:bold;
+            color:rgba(85,85,85,1);
+            line-height:36px;
+            float:left;
+        }
+
+        .navigation-btn {
+            line-height: 32px;
+            font-size: 12px;
+        }
+        .container-content {
+            background-color: #F7F7F7;
+            float: left;
+            width: 100%;
+            height: 1000px;
+        }
+        .upload {
+            float: left;
+            position: relative;
+            left: 200px;
+            top: 30px;
+            margin-left:14px;
+            padding-top: 22px;
+            padding-right: 270px;
+            padding-left: 22px;
+            padding-bottom: 60px;
+            background-color: white;
+            width: 1102px;
+            height: auto;
+        }
+
+        {#.submit_check {#}
+        {#    float: left;#}
+        {#    position: relative;#}
+        {#    left: 15%;#}
+        {#    width: 83%;#}
+        {#    top: 8%;#}
+        {#    padding-top: 2%;#}
+        {#    padding-right: 4%;#}
+        {#    padding-left: 4%;#}
+        {#    padding-bottom: 2%;#}
+        {#    background-color: white;#}
+        {# }#}
+        .text {
+            position: relative;
+            width: 100%;
+            padding-top: 14px;
+            font-size: 18px;
+            padding-bottom: 20px;
+        }
+
+        #flowwer div {
+            width: 50px;
+        }
+        .information {
+            border: 0;
+            width: 50%;
+            float: left;
+            height: 650px;
+            overflow: scroll;
+            background-color: #f8f8f8;
+        }
+        {#.back_buttom {#}
+        {#    width:108px;#}
+        {#    height:40px;#}
+        {#    background:rgba(255,255,255,1);#}
+        {#    border:1px solid rgba(217,217,217,1);#}
+        {#    box-shadow:0px 3px 7px 0px rgba(217,217,217,0.25);#}
+        {#    border-radius:4px;#}
+        {#    color:#595959;#}
+        {#    margin-top:30px;#}
+        {#}#}
+        .result {
+            border: 0;
+            width: 50%;
+            height: 650px;
+            overflow: scroll;
+            background-color: #f8f8f8;
+        }
+        .table3 {
+            width: 100%;
+            margin-bottom: 0px;
+            margin-top: 10px;
+            margin-left: 17px;
+        }
+        .information11 {
+            width: 859px;
+            margin-left: 550px;
+            float: left;
+            margin-top: 105px;
+        }
+
+        .information-text {
+            float: left;
+            width: 858px;
+            padding-bottom: 12px;
+            padding-left: 9px;
+            padding-top: 12px;
+            font-size: 15px;
+            background-color: whitesmoke;
+            margin-top: 0px;
+            margin-bottom: 0px;
+        }
+
+        .love {
+            width: 30px;
+            height: 30px;
+            position: absolute;
+            display: none;
+        }
+
+        .sims_item {
+            color: #2c6fae;
+        }
+        .sims_item:hover {
+            color: #2c6fae;
+            font-weight: bold;
+        }
+    </style>
+{% endblock %}

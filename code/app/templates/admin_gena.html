@@ -1,0 +1,185 @@
+{% extends "admin_base.html" %}
+{% block page_content %}
+
+
+    <div class="container-content">
+        <script src="../static/myjs/admin_gena_js.js"></script>
+            <form id="docx_type" name="docx_type" method="POST" action="/gen/admin_gena2" enctype="multipart/form-data">
+             <div class="header-navigation">
+                <div class="navigation-btn">
+                    <a href="/gen" style="color:#909399">合同生成</a>
+                    <span style="color:#909399"> / </span>
+                    <span style="color:#303133">文件选择</span>
+                </div>
+             </div>
+             <div class="upload" style="height:100%">
+                 <div class="text" style="font-weight:normal;color:#595959;font-size:16px;"><h1 class="box-title"></h1>合同生成</div>
+                 <p class="upload-text1">合同分类</p>
+                    <select class="upload-select" onchange="onContractSelectChange(this.value)" id="xz_yjfl" name="xz_yjfl" class="selectpicker" data-live-search="true" >
+                        <option value="1_0" disabled selected style="color: gainsboro;">一级分类</option>
+                        {% for category in categorys %}
+                            <option value="{{ category }}">{{ category }}</option>
+                        {% endfor %}
+                    </select>
+                <div style="margin-top: 41px">
+                    <p class="upload-text1">业务细分</p>
+                    <select class="upload-select" onchange="selectChange(this.value)" id="xz_ejfl" name="xz_ejfl" class="selectpicker" data-live-search="true">
+                        <option value="00000" disabled selected style="color: gainsboro;">请选择</option>
+                    </select>
+               </div>
+
+               </div>
+                <div class="submit_check" style="display: inline;">
+                    <button class="btn btn-primary submit_buttom" onclick="sb1()">确定</button>
+                </div>
+            </form>
+
+
+    </div>
+    <script type="text/javascript" >
+                $(function () {
+                    $('#collapseOne').collapse('hide');
+			        $('#leftbar_icon1').fadeTo(1,0);
+			        $('#leftbar_icon2').fadeTo(500,1);
+			     });
+    </script>
+    <style>
+    .container-content{
+            background-color: #F7F7F7;
+            float: left;
+            width: 100%;
+            height: 1000px;
+        }
+        .text {
+            position: relative;
+            width: 100%;
+            padding-top: 14px;
+            padding-left:22px;
+            padding-bottom: 28px;
+        }
+        .selectpicker{
+            width: 150px;
+            height: 24px;
+            margin-left: 28px
+        }
+
+        .header-navigation {
+        float: left;
+        position: relative;
+        left: 220px;
+        top: 30px;
+        padding-left: 22px;
+        padding-right: 22px;
+        padding-bottom: 22px;
+        width: 100%;
+        background-color: white;
+        height: 30px;
+        }
+
+        .navigation-text {
+            font-size:18px;
+            font-family:MicrosoftYaHei;
+            font-weight:bold;
+            color:rgba(85,85,85,1);
+            line-height:36px;
+            float:left;
+        }
+
+      .navigation-btn {
+            line-height: 32px;
+            font-size: 12px;
+        }
+
+        .upload {
+            float: left;
+            position: relative;
+            left: 200px;
+            top: 30px;
+            margin-left:14px;
+            padding-top: 22px;
+            padding-right: 270px;
+            padding-left: 22px;
+            padding-bottom: 60px;
+            background-color: white;
+            width: 1102px;
+            height: 579px;
+        }
+
+
+        .fileinput-btn {
+            position: relative;
+            display: inline-block;
+            overflow: hidden;
+            margin-left:22px;
+        }
+
+        .modify-btn {
+            width:436px;
+            height:40px;
+            background:#FFFFFF;
+            text-align:center;
+            text-decoration:none;
+            font-color:#666666;
+            border: 1px solid #E1E1E1;
+        }
+
+
+        .modify-text {
+            display:block;
+            padding-top:22px;
+        }
+
+        .fileinput-btn input{
+            position: absolute;
+            cursor: pointer;
+            right: 0px;
+            top: 0px;
+            z-index: 3;
+            opacity: 0;
+            -ms-filter: 'alpha(opacity=0)';
+        }
+        .upload-select {
+            margin-left: 22px;
+            width: 436px;
+            height: 40px;
+            background:#FFFFFF;
+            text-decoration:none;
+            font-color:#666666;
+            border: 1px solid #E1E1E1;
+        }
+        .upload-text1{
+            float: left;
+            height: 15px;
+            font-size: 14px;
+            padding-top: 10px;
+            padding-left: 111px;
+        }
+           .upload-text2{
+            float: left;
+            height: 10px;
+            font-size: 13px;
+            padding-top: 3px;
+        }
+        {#.submit_buttom {#}
+        {#    width: 108px;#}
+        {#    height: 40px;#}
+        {#    float: left;#}
+        {#    font-size: 16px;#}
+        {#    margin-top: 22px;#}
+        {#    margin-left: 140px;#}
+        {#    margin-bottom: 10px;#}
+        {#    position: relative;#}
+        {#    left: 50px;#}
+        {#    background:linear-gradient(70deg,rgba(0,176,255,1),rgba(26,251,254,1));#}
+        {#    box-shadow:0px 3px 7px 0px rgba(0,174,255,0.25);#}
+        {#    border:none;#}
+        {##}
+        {#}#}
+
+
+
+    </style>
+{% endblock %}
+
+
+

@@ -1,0 +1,263 @@
+{% extends "admin_base.html" %}
+
+
+
+{% block page_content %}
+
+    <div class="container-content">
+        <form method="POST" action="/check/admin_check" enctype="multipart/form-data">
+
+            <div class="header-navigation">
+                <div class="navigation-btn">
+                    <a href="/exam" style="color:#909399">智能审核</a>
+                    <span style="color:#909399"> / </span>
+                    <span style="color:#303133">合规性审核</span>
+                </div>
+            </div>
+
+           <div class="upload" style="height: 100%">
+                <div class="text" style="font-weight:normal;color:#595959;font-size:16px;"><h1 class="box-title"></h1>合规性审核</div>
+                <p class="upload-text">上传文件</p >
+                <span class="fileinput-btn">
+                        <button class="modify-btn">+ 选择文件</button>
+                        <span class="modify-text" id="userdefinedFile">未选择任何文件</span>
+                        <input type="file" id="upfile" name="file">
+                </span>
+            </div>
+
+            <div class="submit_check" style="display: inline;">
+             <button onclick="sb1();return false;" class="btn btn-primary submit_buttom" id="but">审核</button>
+            </div>
+        </form>
+    </div>
+
+    <script src="../static/layui-v2.4.5/layui/layui.all.js"></script>
+
+    <script>
+
+        document.getElementById("upfile").onchange = function() {
+            document.getElementById("userdefinedFile").innerHTML = document.getElementById("upfile").value;
+        }
+        /**
+         * 显示错误提示
+         */
+        window.onload = function () {
+            document.getElementById("title3").style.color="white";
+            document.getElementById("title3").style.opacity="1.0";
+            {#document.getElementById("title3").style.backgroundImage="url('{{ url_for('static', filename='image/selected_border.png') }}')";#}
+            document.getElementById("title3").style.backgroundPosition = "0px 0px";
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+                        alert('{{ message }}')
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        }
+
+        function sb_check() {
+
+            var index = layer.load(1, {
+                shade: [0.3,'#000'] //0.1透明度的白色背景
+            });
+
+            let xz_ejfl = document.getElementById("xz_ejfl");
+            let upfile = document.getElementById("upfile");
+            if (upfile.value.length == 0) {
+                alert("请上传一个文件！");
+                return false;
+            }else{
+                let filepath=upfile.value;
+                var extStart = filepath.lastIndexOf(".");
+                var ext = filepath.substring(extStart, filepath.length).toLowerCase();
+                if(ext!=".docx"){
+                   // alert("请上传docx文件");
+                    return false;
+                }else{
+                    //form1.submit();
+                    return true;
+                }
+
+            }
+        }
+         function sb1() {
+
+            var index = layer.load(1, {
+                shade: [0.3,'#000'] //0.1透明度的白色背景
+            });
+
+            let xz_ejfl = document.getElementById("xz_ejfl");
+            let upfile = document.getElementById("upfile");
+            if (upfile.value.length == 0) {
+                alert("请上传一个文件！");
+            } else if (xz_ejfl.selectedIndex == '00000') {
+                alert("请选择一个合同业务！");
+            }
+            else {
+                let form1 = document.getElementById('docx_type');
+                console.log('upload success!')
+                layer.msg('hellsdfgsdfgsdfgsdfgsdfgsdfgssdgfsdfgso');
+                //loading层
+                var index = layer.load(1, {
+                    shade: [0.1,'#fff'] //0.1透明度的白色背景
+                });
+                form1.submit();
+            }
+        }
+    </script>
+    <style>
+.container-content{
+            background-color: #F7F7F7;
+            float: left;
+            width: 100%;
+            height: 1000px;
+        }
+        .text {
+               position: relative;
+                width: 100%;
+                padding-top: 14px;
+                padding-left: 22px;
+                padding-bottom: 28px;
+        }
+
+        .header-navigation {
+        float: left;
+        position: relative;
+        left: 220px;
+        top: 30px;
+        padding-left: 22px;
+        padding-right: 22px;
+        padding-bottom: 22px;
+        width: 100%;
+        background-color: white;
+        height: 30px;
+        }
+
+        .navigation-text {
+            font-size:18px;
+            font-family:MicrosoftYaHei;
+            font-weight:bold;
+            color:rgba(85,85,85,1);
+            line-height:36px;
+            float:left;
+        }
+
+      .navigation-btn {
+            line-height: 32px;
+            font-size: 12px;
+        }
+
+        .upload {
+            float: left;
+            position: relative;
+            left: 200px;
+            top: 30px;
+            margin-left:14px;
+            padding-top: 22px;
+            padding-right: 270px;
+            padding-left: 22px;
+            padding-bottom: 60px;
+            background-color: white;
+            width: 1102px;
+            height: 579px;
+        }
+        {#.submit_check{#}
+        {#    float: left;#}
+        {#    position: relative;#}
+        {#    left: 200px;#}
+        {#    width: 998px;#}
+        {#    top: 50px;#}
+        {#    padding-top: 21px;#}
+        {#    padding-right: 51px;#}
+        {#    padding-left: 846px;#}
+        {#    padding-bottom: 4px;#}
+        {#    background-color: white;#}
+        {#}#}
+         .upload-text {
+            float: left;
+            height: 15px;
+            font-size: 14px;
+            padding-top: 10px;
+            padding-left: 111px;
+        }
+
+
+        .fileinput-btn {
+            position: relative;
+            display: inline-block;
+            overflow: hidden;
+            margin-left:22px;
+        }
+
+        .modify-btn {
+            width:436px;
+            height:40px;
+            background:#FFFFFF;
+            text-align:center;
+            text-decoration:none;
+            font-color:#666666;
+            border: 1px solid #E1E1E1;
+        }
+
+
+        .modify-text {
+            display:block;
+            padding-top:22px;
+        }
+
+        .fileinput-btn input{
+            position: absolute;
+            cursor: pointer;
+            right: 0px;
+            top: 0px;
+            z-index: 3;
+            opacity: 0;
+            -ms-filter: 'alpha(opacity=0)';
+        }
+
+        .upload input[type="file"] {
+            width: 438px;
+            height: 40px;
+            font-size: 13px;
+            padding-right:100px;
+            display:inline;
+        }
+
+        .upload input[type="submit"] {
+            height: 31px;
+            width: 100px;
+            font-size: 13px;
+
+        }
+
+        {#.submit_buttom {#}
+        {#    width: 108px;#}
+        {#    height: 40px;#}
+        {#    float: left;#}
+        {#    font-size: 16px;#}
+        {#    margin-top: 22px;#}
+        {#    margin-left: 140px;#}
+        {#    margin-bottom: 10px;#}
+        {#    position: relative;#}
+        {#    left: 50px;#}
+        {#    background:linear-gradient(70deg,rgba(0,176,255,1),rgba(26,251,254,1));#}
+        {#    box-shadow:0px 3px 7px 0px rgba(0,174,255,0.25);#}
+        {#    border:none;#}
+        {#}#}
+
+
+        {#form{width: 1000px;position: relative;}#}
+        {#@media all and (min-width:1300px) {#}
+        {#    form{#}
+        {#         left: 200px;#}
+        {#    }#}
+        {#}#}
+        {#@media all and (min-width:1800px) {#}
+        {#    form{#}
+        {#         left: 350px;#}
+        {#    }#}
+        {#}#}
+
+
+    </style>
+{% endblock %}

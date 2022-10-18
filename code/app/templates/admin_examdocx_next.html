@@ -1,0 +1,285 @@
+{% extends "admin_base.html" %}
+{% block page_content %}
+<div class="container-content">
+    <div class="header-navigation">
+                <div class="navigation-btn">
+                    <a href="/exam" style="color:#909399">智能审核</a>
+                    <span style="color:#909399"> / </span>
+                    <span style="color:#303133">条款审核和金额审核</span>
+                </div>
+       </div>
+    <div class="upload">
+        <div class="text" style="font-weight:normal;color:#595959;font-size:16px;"><h1 class="box-title"></h1>合同条款审核</div>
+        <table class="table table-hover" style="width:1058px;height:40px;margin-bottom: 0px;">
+            <tr style="background-color:#FFFFFF">
+                <th width="25%"><p style="margin-left:42px;padding-top:7px;">审核条款</p></th>
+                <th width="30%"><p style="padding-top:7px;">审核内容</p></th>
+                <th width="25%"><p style="padding-top:7px;">是否一致</p></th>
+                <th width="20%"><p style="padding-top:7px;">备注</p></th>
+            </tr>
+            {% for title in clause_title %}
+                <tr>
+                    <td><p style="margin-left:42px;padding-top:7px;">{{ title[0] }}</p></td>
+                    <td><p style="padding-top:7px;">{{ title[1] }}</p></td>
+                    {% if title[2] == 1 %}
+                        <td><div style="margin-top:7px;width:36px;height:20px;background:rgba(0,174,255,1);border-radius:4px;color:#FFFFFF">{{ title[3]| safe }}</div></td>
+                    {% else %}
+                        <td><div style="margin-top:7px;width:50px;height:20px;background:rgba(249,96,103,1);border-radius:4px;color:#FFFFFF"> {{ title[3]| safe }}</div></td>
+                    {% endif %}
+                    <td><p style="padding-top:7px;">{{ title[4] }}</p></td>
+                </tr>
+            {% endfor %}
+        </table>
+        <div class="text" style="margin-top:52px;font-weight:normal;color:#595959;font-size:16px;"><h1 class="box-title"></h1>合同金额审核</div>
+        <table class="table table-hover" style="width:1058px;height:40px;margin-bottom: 0px;">
+            <tr style="background-color:#FFFFFF">
+                <th width="25%"><p style="margin-left:42px;padding-top:7px;">审核内容</p></th>
+                <th width="25%"><p style="padding-top:7px;">大写</p></th>
+                <th width="25%"><p style="padding-top:7px;">小写</p></th>
+                <th width="25%"><p style="padding-top:7px;">审核结果</p></th>
+            </tr>
+            {% for element in check_res_dict %}
+                {% if check_res_dict[element] != '' %}
+                    {% if check_res_dict[element] == 1 %}
+                        <tr>
+                            <td>{{ element }}&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                            <td>{{ elem_content_dic[element][0] }}&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                            <td>{{ elem_content_dic[element][1] }}</td>
+                            <td>大小写金额一致</td>
+                        </tr>
+                    {% endif %}
+                    {% if check_res_dict[element] == 0 %}
+                        <tr>
+                            <td>{{ element }}&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                            <td>{{ elem_content_dic[element][0] }}&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                            <td>{{ elem_content_dic[element][1] }}</td>
+                            <td>大小写金额不相等</td>
+                        </tr>
+                    {% endif %}
+                    {% if check_res_dict[element] == -1 %}
+                        <tr>
+                            <td>{{ element }}&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                            <td>{{ elem_content_dic[element][0] }}&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                            <td>{{ elem_content_dic[element][1] }}</td>
+                            <td>大写金额有误</td>
+                        </tr>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+        </table>
+
+        <p class="information-text2">审核规则：<br/>1.合同金额大写内容中各个数字是否是大写，如壹贰叁……<br/>2. 合同金额大小写是否对应 </p>
+     </div>
+
+
+    <div class="submit_check" style="display: inline;">
+    <button type="button" onclick="javascript:history.back();" class="back_buttom">返回</button>
+    </div>
+
+ </div>
+    <form name='download_form' method="POST" action="/exam/admin_download" enctype="multipart/form-data"><input id="download_input" name="download_input" type="hidden" value=""></form>
+
+    <script>
+            window.onload = function () {
+            document.getElementById("title2").style.color="white";
+            document.getElementById("title2").style.opacity="1.0";
+            document.getElementById("title2").style.backgroundPosition = "0px 0px";
+        }
+        /**
+         * 修改颜色样式缓存字典
+         */
+        let changeColorTmpDict = new Array()
+
+
+        /**
+         * 修改颜色样式
+         * @param aID
+         */
+        function changeColor(aID) {
+            let a = document.getElementById(aID);
+            let spanID = a.firstElementChild.id;
+            let span = document.getElementById(spanID);
+
+            // 如果以及被修改，可以取消修改
+            if (spanID in changeColorTmpDict) {
+                let confirmValue = confirm("是否不接受“" + span.innerText + "”的修改？（点击确定将添加高亮）");
+                if (confirmValue) {
+                    span.className = changeColorTmpDict[spanID];
+                    delete changeColorTmpDict[spanID];
+
+                }
+            } else {
+                let confirmValue = confirm("是否接受“" + span.innerText + "”的修改？（点击确定将去除高亮）");
+                if (confirmValue) {
+                    changeColorTmpDict[spanID] = span.className;
+                    span.className = 'doc_confirm';
+
+                }
+            }
+
+            console.log(changeColorTmpDict);
+            console.log(changeColorTmpDict.toString());
+        }
+
+        /**
+         * 将确认修改的内容提交表单，下载文件
+         */
+        function downloadTestDocFile() {
+            let download_input = document.getElementById('download_input');
+
+            let input_str = "";
+            for (let key in changeColorTmpDict) {
+                input_str += key.toString() + ' ';
+            }
+            console.log(input_str);
+
+            download_input.value = input_str;
+            document.download_form.submit();
+        }
+
+
+        /**
+         * 提交表单
+         * @constructor
+         */
+        function SendForm() {
+            document.lookForm.submit();
+        }
+
+        /**
+         * 控制两个div的滚动条联动，便于页面对比
+         */
+        function funcsrcoll1() {
+            //div2.scrollTop = div1.scrollTop;
+        }
+
+        /**
+         * 控制两个div的滚动条联动，便于页面对比
+         */
+        function funcsrcoll2() {
+            div1.scrollTop = div2.scrollTop;
+        }
+
+
+    </script>
+    <style>
+
+        a {
+            color: black;
+            font-weight: Normal; /*CSS字体效果 普通 可以改成bold粗体 如果去除此行那么默认是不显示下划线的*/
+            text-decoration: none; /*CSS下划线效果：无下划线*/
+        }
+
+        a:hover {
+            color: black;
+        }
+        td{
+            border-bottom: 1px solid #ddd;
+        }
+         .header-navigation {
+        float: left;
+        position: relative;
+        left: 220px;
+        top: 30px;
+        padding-left: 22px;
+        padding-right: 22px;
+        padding-bottom: 22px;
+        width: 100%;
+        background-color: white;
+        height: 30px;
+        }
+
+        .navigation-btn {
+            line-height: 32px;
+            font-size: 12px;
+        }
+        tr{
+            height:50px;
+        }
+        tr:nth-child(odd) {
+            background-color:#F8FAFA;
+        }
+
+      .container-content{
+            background-color: #F7F7F7;
+            float: left;
+            width: 100%;
+            height: 1000px;
+        }
+        {#.submit_check{#}
+        {#    float: left;#}
+        {#    position: relative;#}
+        {#    left: 200px;#}
+        {#    width: 1025px;#}
+        {#    top: 50px;#}
+        {#    padding-top: 21px;#}
+        {#    padding-right: 51px;#}
+        {#    padding-left: 846px;#}
+        {#    padding-bottom: 4px;#}
+        {#    background-color: white;#}
+        {#}#}
+        {##}
+        {#.back_buttom {#}
+        {#    width:108px;#}
+        {#    height:40px;#}
+        {#    background:rgba(255,255,255,1);#}
+        {#    border:1px solid rgba(217,217,217,1);#}
+        {#    box-shadow:0px 3px 7px 0px rgba(217,217,217,0.25);#}
+        {#    border-radius:4px;#}
+        {#    margin-top:44px;#}
+        {#}#}
+         .upload {
+            float: left;
+            position: relative;
+            left: 200px;
+            top: 30px;
+            margin-left:14px;
+            padding-top: 22px;
+            padding-right: 270px;
+            padding-left: 22px;
+            padding-bottom: 60px;
+            background-color: white;
+            width: 1102px;
+            height: auto;
+        }
+         .text {
+               position: relative;
+                width: 100%;
+                padding-top: 14px;
+                font-size: 18px;
+                padding-bottom: 20px;
+        }
+
+        .information-text2 {
+            float: left;
+            width: 100%;
+            padding-top: 25px;
+            font-size: 12px;
+        }
+
+        @media all and (max-width: 1600px) {
+            .information0, .information, .information2, .information3 {
+                margin-left: 250px;
+            }
+
+            .information, .information2 {
+                margin-top: 50px;
+            }
+
+            .information0, .information3 {
+                margin-top: 80px;
+            }
+        }
+
+
+        /*FireFox*/
+        @-moz-document url-prefix() {
+
+            .fileinput {
+                margin-left: -26%;
+            }
+
+        }
+    </style>
+{% endblock %}
+

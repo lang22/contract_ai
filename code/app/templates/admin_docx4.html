@@ -1,0 +1,292 @@
+{% extends "admin_base.html" %}
+{% block page_content %}
+
+
+
+
+    <div class="container-content">
+        <div class="upload">
+
+            <h1 class="box-title"></h1>
+            <div class="text">合同审查申请表</div>
+
+
+            <div class="shift_text">
+                <a href="/flowtab/admin_docx" class="shift_text_buttom1">面签记录表</a>
+                <a href="/flowtab/admin_docx4" class="shift_text_buttom2">审查申请表</a>
+                <hr style="margin-top: 35px">
+            </div>
+
+            <div>
+                <h4 style="top:60px;width:140px;height:40px;margin-left:45%">合同审查申请表</h4>
+
+                <form id="form1" method="POST" action="/flowtab/admin_docx2_save" enctype="multipart/form-data">
+                    <table style="margin-bottom: 30px">
+                        <tr>
+                            <td>
+                                <p class="td_width_text">
+                                    申报部门</p></td>
+                            <td><input type="text" id="dp_name" name="dp_name" placeholder="请输入申报部门" class="td_width3">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p class="td_width_text">
+                                    项目名称</p></td>
+                            <td><input type="text" id="pt_name" name="pt_name" placeholder="请输入项目名称" class="td_width3">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p class="td_width_text">
+                                    项目编号</p></td>
+                            <td><input type="text" id="pt_cont" name="pt_cont" placeholder="请输入项目编号" class="td_width3">
+                            </td>
+                        </tr>
+
+                    </table>
+                    <table>
+                        <tr>
+                            <td>
+                                <p>
+                                    合同序号</p></td>
+                            <td>
+                                <p>
+                                    合同名称</p></td>
+                            <td>
+                                <p>
+                                    合同文本提供方</p></td>
+                            <td>
+                                <p>是否格式文本</p></td>
+                            <td>
+                                <p>
+                                    是否允许修改</p></td>
+                            <td>
+                                <p>
+                                    合同其他方的意见</p></td>
+                            <td>
+                                <p>
+                                    特别事项说明</p></td>
+                            <td>
+                                <p>
+                                    其他</p></td>
+                        </tr>
+                        <tr>
+                            <td><input type="text" id="xh0" name="xh0" placeholder="请输入序号" class="td_width1">
+                            </td>
+                            <td><input type="text" id="mc0" name="mc0" placeholder="请输入合同名称" class="td_width2">
+                            </td>
+                            <td><input type="text" id="tgf0" name="tgf0" value="" class="td_width1">
+                            </td>
+                            <td><input type="text" id="wb0" name="wb0" value=" " class="td_width1">
+                            </td>
+                            <td><input type="text" id="xg0" name="xg0" value=" " class="td_width1">
+                            </td>
+                            <td><input type="text" id="yj0" name="yj0" value=" " class="td_width1">
+                            </td>
+                            <td><input type="text" id="sm0" name="sm0" value=" " class="td_width1">
+                            </td>
+                            <td><input type="text" id="qt0" name="qt0" value=" " class="td_width1">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><input type="text" id="xh1" name="xh1" placeholder="请输入序号" class="td_width1">
+                            </td>
+                            <td><input type="text" id="mc1" name="mc1" placeholder="请输入合同名称" class="td_width2">
+                            </td>
+                            <td><input type="text" id="tgf1" name="tgf1" value="" class="td_width1">
+                            </td>
+                            <td><input type="text" id="wb1" name="wb1" value=" " class="td_width1">
+                            </td>
+                            <td><input type="text" id="xg1" name="xg1" value=" " class="td_width1">
+                            </td>
+                            <td><input type="text" id="yj1" name="yj1" value=" " class="td_width1">
+                            </td>
+                            <td><input type="text" id="sm1" name="sm1" value=" " class="td_width1">
+                            </td>
+                            <td><input type="text" id="qt1" name="qt1" value=" " class="td_width1">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><input type="text" id="xh2" name="xh2" placeholder="请输入序号" class="td_width1">
+                            </td>
+                            <td><input type="text" id="mc2" name="mc2" placeholder="请输入合同名称" class="td_width2">
+                            </td>
+                            <td><input type="text" id="tgf2" name="tgf2" value="" class="td_width1">
+                            </td>
+                            <td><input type="text" id="wb2" name="wb2" value=" " class="td_width1">
+                            </td>
+                            <td><input type="text" id="xg2" name="xg2" value=" " class="td_width1">
+                            </td>
+                            <td><input type="text" id="yj2" name="yj2" value=" " class="td_width1">
+                            </td>
+                            <td><input type="text" id="sm2" name="sm2" value=" " class="td_width1">
+                            </td>
+                            <td><input type="text" id="qt2" name="qt2" value=" " class="td_width1">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><input type="text" id="xh3" name="xh3" placeholder="请输入序号" class="td_width1">
+                            </td>
+                            <td><input type="text" id="mc3" name="mc3" placeholder="请输入合同名称" class="td_width2">
+                            </td>
+                            <td><input type="text" id="tgf3" name="tgf3" value="" class="td_width1">
+                            </td>
+                            <td><input type="text" id="wb3" name="wb3" value=" " class="td_width1">
+                            </td>
+                            <td><input type="text" id="xg3" name="xg3" value=" " class="td_width1">
+                            </td>
+                            <td><input type="text" id="yj3" name="yj3" value=" " class="td_width1">
+                            </td>
+                            <td><input type="text" id="sm3" name="sm3" value=" " class="td_width1">
+                            </td>
+                            <td><input type="text" id="qt3" name="qt3" value=" " class="td_width1">
+                            </td>
+                        </tr>
+                    </table>
+
+                </form>
+
+
+            </div>
+
+        </div>
+
+        <div class="submit_check">
+            <button type="button" onclick="javascript:window.location.href='/flowtab/admin_choosetable';"
+                    class="back_buttom">返回
+            </button>
+            <button type="submit" onclick="javascript:form_submit()" class="btn btn-success submit_buttom">下载</button>
+        </div>
+
+
+    </div>
+
+    <script>
+
+        function form_submit() {
+            let form1 = document.getElementById("form1");
+            form1.submit();
+        }
+
+    </script>
+    <style>
+
+
+        .container-content {
+            background-color: #F7F7F7;
+            float: left;
+            width: 100%;
+            height: 1000px;
+        }
+
+        .submit_check {
+            float: left;
+            position: relative;
+            left: 200px;
+            width: 1025px;
+            top: 50px;
+            padding-top: 21px;
+            padding-right: 51px;
+            padding-left: 846px;
+            padding-bottom: 4px;
+            background-color: white;
+        }
+
+        .back_buttom {
+            width: 60px;
+            height: 32px;
+            font-size: 14px;
+            padding-top: 5px;
+            margin-bottom: 10px;
+            position: relative;
+            left: 25px;
+            float: left;
+        }
+
+        .submit_buttom {
+            width: 60px;
+            height: 32px;
+            float: left;
+            font-size: 14px;
+            padding-top: 5px;
+            margin-bottom: 10px;
+            position: relative;
+            left: 50px;
+        }
+
+        .upload {
+            float: left;
+            position: relative;
+            left: 200px;
+            top: 30px;
+            padding-top: 21px;
+            padding-right: 55px;
+            padding-left: 60px;
+            padding-bottom: 40px;
+            background-color: white;
+            width: 1025px;
+        }
+
+        .text {
+            font-weight: bold;
+            position: relative;
+            width: 100%;
+            padding-top: 14px;
+            font-size: 18px;
+            padding-bottom: 20px;
+        }
+
+        .shift_text {
+
+            position: relative;
+            width: 100%;
+            padding-top: 14px;
+            font-size: 17px;
+            padding-bottom: 20px;
+        }
+
+
+        .shift_text_buttom1 {
+            float: left
+
+        }
+        .shift_text_buttom1:hover{
+            color:blue;
+        }
+
+        .shift_text_buttom2 {
+            float: left;
+            margin-left: 100px
+        }
+        .shift_text_buttom2:hover{
+            color:blue;
+        }
+        .td_width1 {
+            width: 115px;
+        }
+
+        .td_width2 {
+            width: 120px;
+        }
+
+        .td_width3 {
+            width: 500px;
+            vertical-align: middle;
+            margin-right: 80px;
+            margin-bottom: 20px;
+        }
+
+        .td_width_text {
+            text-align: center;
+            vertical-align: middle;
+            margin-right: 30px;
+            margin-bottom: 20px;
+        }
+
+        .shift_text a {
+            font-weight: bold;
+            color: black;
+        }
+    </style>
+{% endblock %}

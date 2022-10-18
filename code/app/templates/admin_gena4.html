@@ -1,0 +1,152 @@
+{% extends "admin_base.html" %}
+{% block page_content %}
+    <div class="container-content">
+     <div class="header-navigation">
+                <div class="navigation-btn">
+                    <a href="/gen" style="color:#909399">合同生成</a>
+                    <span style="color:#909399"> / </span>
+                    <span style="color:#303133">文件下载</span>
+                </div>
+     </div>
+        <div class="upload">
+           <div class="text" style="font-weight:normal;color:#595959;font-size:16px;"><h1 class="box-title"></h1>合同生成</div>
+            <p class="upload-text">合同名称</p>
+            <form name="get_docx" id="get_docx" method="POST" action="/gen/admin_gena_newdocx"
+                  enctype="multipart/form-data">
+                <input class="upload-text1" type="text" id="file_name" name="file_name" placeholder="请输入合同文件的文件名">
+            </form>
+            <form name="get_docxtt" id="get_docxtt" method="POST" action="/gen/goback"
+                      enctype="multipart/form-data"></form>
+
+{#            <div style="clear:both; margin-left:190px;margin-top: 22px;">#}
+{#                <button type="button" onclick="sb2();" class="back_buttom">返回</button>#}
+{#                <button type="button" onclick="sb()" class="btn btn-success submit_buttom">导出</button>#}
+{#            </div>#}
+
+        </div>
+         <div class="submit_check" style="display: inline;">
+                <button type="button" onclick="sb()" class="btn btn-primary submit_buttom">导出</button>
+                <button type="button" onclick="sb2();" class="back_buttom">返回</button>
+        </div>
+
+    </div>
+
+
+
+
+    <script>
+        function sb() {
+            let regex = new RegExp("^([\u4E00-\uFA29]|[\uE7C7-\uE7F3]|[a-zA-Z0-9_-]){1,20}$");
+            let file_name = document.getElementById("file_name");
+            if (file_name.value == '') {
+                alert("合同文件的文件名不能为空！");
+            } else if (!regex.test(file_name.value)) {
+                alert("请输入正确的文件名！")
+            } else {
+                let form1 = document.getElementById('get_docx')
+                form1.submit()
+            }
+        }
+
+        function sb2() {
+            let form1 = document.getElementById('get_docxtt')
+            form1.submit()
+        }
+    </script>
+
+    <style>
+        .container-content {
+            background-color: #F7F7F7;
+            float: left;
+            width: 100%;
+            height: 1300px;
+        }
+
+        .upload {
+         float: left;
+            position: relative;
+            left: 200px;
+            top: 30px;
+            margin-left:14px;
+            padding-top: 22px;
+            padding-right: 270px;
+            padding-left: 22px;
+            padding-bottom: 60px;
+            background-color: white;
+            width: 1102px;
+            height: 579px;
+        }
+
+        .upload-text1 {
+             margin-left: 22px;
+            width: 436px;
+            height: 40px;
+            background: #FFFFFF;
+            text-decoration: none;
+            font-color: #666666;
+            border: 1px solid #E1E1E1;
+        }
+
+        {#.submit_buttom {#}
+        {#   width:108px;#}
+        {#    height:40px;#}
+        {#    background:linear-gradient(70deg,rgba(0,176,255,1),rgba(26,251,254,1));#}
+        {#    box-shadow:0px 3px 7px 0px rgba(0,174,255,0.25);#}
+        {#    margin-left:22px;#}
+        {#    border:none;#}
+        {#    margin-top: -1px;#}
+        {#    margin-right: 15px;#}
+        {#}#}
+        {##}
+        {#.back_buttom {#}
+        {#   width:108px;#}
+        {#    height:40px;#}
+        {#    background:rgba(255,255,255,1);#}
+        {#    border:1px solid rgba(217,217,217,1);#}
+        {#    box-shadow:0px 3px 7px 0px rgba(217,217,217,0.25);#}
+        {#    border-radius:4px;#}
+        {#}#}
+
+      .text {
+            position: relative;
+            width: 100%;
+            padding-top: 14px;
+            font-size: 18px;
+            padding-bottom: 28px;
+        }
+     .header-navigation {
+        float: left;
+        position: relative;
+        left: 220px;
+        top: 30px;
+        padding-left: 22px;
+        padding-right: 22px;
+        padding-bottom: 22px;
+        width: 100%;
+        background-color: white;
+        height: 30px;
+        }
+
+        .navigation-text {
+            font-size:18px;
+            font-family:MicrosoftYaHei;
+            font-weight:bold;
+            color:rgba(85,85,85,1);
+            line-height:36px;
+            float:left;
+        }
+
+      .navigation-btn {
+            line-height: 32px;
+            font-size: 12px;
+        }
+           .upload-text{
+            float: left;
+            height: 15px;
+            font-size: 14px;
+            padding-top: 10px;
+            padding-left: 111px;
+        }
+    </style>
+{% endblock %}
+

@@ -1,0 +1,148 @@
+{% extends "admin_base.html" %}
+{% block page_content %}
+<div class="container-content">
+    <script type="text/javascript" src="../static/myjs/admin_gena2_js.js"></script>
+    <form method="POST" id="get_docx" action="/gen/admin_gena4/0" enctype="multipart/form-data">
+     <div class="header-navigation">
+                <div class="navigation-btn">
+                    <a href="/gen" style="color:#909399">合同生成</a>
+                    <span style="color:#909399"> / </span>
+                    <span style="color:#303133">要素填写</span>
+                </div>
+       </div>
+        <div class="upload">
+            <div class="text" style="font-weight:normal;color:#595959;font-size:16px;"><h1 class="box-title"></h1>填写合同信息</div>
+            <table class="table table-hover table-bordered" style="width: 100%;height: 40px;margin-bottom: 0px;">
+                <tr>
+                    <th style="text-align:center;vertical-align:middle;background-color: whitesmoke;height: 50px">合同信息
+                    </th>
+                    <th style="background-color: whitesmoke;height: 50px;text-align: left;vertical-align: middle;">
+                        内容
+                    </th>
+                </tr>
+                {% for item in element_list %}
+                    <tr>
+                        <td style="text-align:center;vertical-align:middle;">{{ item[1] }}</td>
+                        <td>
+                            <input type="text" id="elem_{{ item[0] }}" name="elem_{{ item[0] }}"
+                                   placeholder="{{ item[3] }}"
+                                   style="width: 880px;height: 33px"
+                                   onblur="check_input('elem_{{ item[0] }}','msg_{{ item[0] }}', '{{ item[2] }}')"
+                                   value = "{{ item[4] }}"
+                            >
+                            <div id="msg_{{ item[0] }}"></div>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+
+        </div>
+        <div class="submit_check" style="display: inline;clear:both">
+            <button type="submit" class="btn btn-primary submit_buttom">确定</button>
+            <button type="button" onclick="javascript:window.location.href='/gen/';" class="back_buttom">返回</button>
+        </div>
+
+    </form>
+</div>
+
+    <style>
+    .container-content{
+            background-color: #F7F7F7;
+            float: left;
+            width: 100%;
+        }
+    .upload {
+            float: left;
+            position: relative;
+            left: 200px;
+            top: 30px;
+            margin-left:14px;
+            padding-top: 22px;
+            padding-right: 50px;
+            padding-left: 22px;
+            padding-bottom: 60px;
+            background-color: white;
+            width: 1102px;
+            height: auto;
+        }
+
+       {# .submit_buttom {#}
+       {#     width:108px;#}
+       {#     height:40px;#}
+       {#     background:linear-gradient(70deg,rgba(0,176,255,1),rgba(26,251,254,1));#}
+       {#     box-shadow:0px 3px 7px 0px rgba(0,174,255,0.25);#}
+       {#     margin-left:22px;#}
+       {#     border:none;#}
+       {# }#}
+       {#.back_buttom {#}
+       {#     width:108px;#}
+       {#     height:40px;#}
+       {#     background:rgba(255,255,255,1);#}
+       {#     border:1px solid rgba(217,217,217,1);#}
+       {#     box-shadow:0px 3px 7px 0px rgba(217,217,217,0.25);#}
+       {#     border-radius:4px;#}
+       {# }#}
+        .text {
+                position: relative;
+                width: 100%;
+                padding-top: 14px;
+                font-size: 18px;
+                padding-bottom: 20px;
+        }
+
+        .information123 {
+            border: 0.7px solid #c5c8d0ad;
+            width: 859px;
+            position: relative;
+            left: 240px;
+            top: 200px;
+            float: left;
+        }
+
+        .information-text {
+            float: left;
+            width: 858px;
+            padding-bottom: 12px;
+            padding-left: 9px;
+            padding-top: 12px;
+            font-size: 15px;
+            background-color: whitesmoke;
+            margin-top: 0px;
+            margin-bottom: 0px;
+        }
+
+        .information11123 {
+            width: 859px;
+            position: relative;
+            left: 210px;
+            float: left;
+            margin-top: 230px;
+        }
+      .header-navigation {
+        float: left;
+        position: relative;
+        left: 220px;
+        top: 30px;
+        padding-left: 22px;
+        padding-right: 22px;
+        padding-bottom: 22px;
+        width: 100%;
+        background-color: white;
+        height: 30px;
+        }
+
+        .navigation-text {
+            font-size:18px;
+            font-family:MicrosoftYaHei;
+            font-weight:bold;
+            color:rgba(85,85,85,1);
+            line-height:36px;
+            float:left;
+        }
+
+      .navigation-btn {
+            line-height: 32px;
+            font-size: 12px;
+        }
+    </style>
+{% endblock %}
